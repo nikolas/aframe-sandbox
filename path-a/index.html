@@ -13,56 +13,7 @@
         <script src="https://aframe.io/releases/1.2.0/aframe.js"></script>
         <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
 
-        <script>
-        AFRAME.registerComponent('menu', {
-            init: function() {
-            }
-        });
-
-        AFRAME.registerComponent('hotspot1', {
-            init: function() {
-                console.log('hi!');
-                this.el.addEventListener('click', function() {
-                    console.log('click!');
-
-                });
-            }
-        });
-
-        AFRAME.registerComponent('travelVideo', {
-            init: function() {
-                console.log('travelVid init!');
-
-                this.el.addEventListener('click', function() {
-                    console.log('travelVideo click!');
-                    // 1. play new video
-
-                    // 2. show hotspot
-                });
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function(event) {
-            const vrButton = document.querySelector('.a-enter-vr');
-            console.log('vrButton', vrButton);
-            if (vrButton) {
-                vrButton.remove();
-            }
-
-            const video = document.getElementById('videoTravel');
-            video.play();
-
-            document.getElementById('play-button')
-                    .addEventListener('click', function() {
-                        video.play();
-                    });
-
-            document.getElementById('pause-button')
-                    .addEventListener('click', function() {
-                        video.pause();
-                    });
-        });
-        </script>
+        <script src="./main.js"></script>
     </head>
     <body>
         <a-scene cursor="rayOrigin: mouse" raycaster="objects: .collidable" device-orientation-permission-ui="enabled: false">
@@ -126,20 +77,20 @@
 
         </a-scene>
         <div class="vid-menu">
-            <button class="btn btn-primary" id="play-button" name="play">
+            <button class="btn btn-success" id="play-button" name="play">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
                     <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
                 </svg>
                 Play
             </button>
-            <button class="btn btn-secondary" id="pause-button" name="pause">
+            <button class="btn btn-dark" id="pause-button" name="pause">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause" viewBox="0 0 16 16">
                     <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
                 </svg>
                 Pause
             </button>
 
-            <button class="btn btn-secondary" id="location-button" name="location">
+            <button class="btn btn-dark" id="location-button" name="location">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-forward" viewBox="0 0 16 16">
                     <path d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5zM1 4.633v6.734L6.804 8 1 4.633zm7.5 0v6.734L14.304 8 8.5 4.633z"/>
                 </svg>
