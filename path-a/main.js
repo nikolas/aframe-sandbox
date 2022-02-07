@@ -1,11 +1,27 @@
 class App {
     constructor() {
         this.state = {
-            activeVid: 'videoTravel'
+            video: 'videoTravel'
         };
     }
 
+    playActiveVideo() {
+        const video = document.getElementById(this.state.video);
+        if (video) {
+            video.play();
+        }
+    }
+
+    pauseActiveVideo() {
+        const video = document.getElementById(this.state.video);
+        if (video) {
+            video.pause();
+        }
+    }
+
     init() {
+        const me = this;
+
         AFRAME.registerComponent('menu', {
             init: function() {
             }
@@ -41,26 +57,27 @@ class App {
                 vrButton.remove();
             }
 
-            const video = document.getElementById('videoTravel');
+            const travelVid = document.getElementById('videoTravel');
             const locVid = document.getElementById('videoLocation');
             //video.play();
 
             document.getElementById('play-button')
                 .addEventListener('click', function() {
-                    video.play();
+                    me.state.video = 'videoTravel';
+                    me.playActiveVideo();
                 });
 
             document.getElementById('pause-button')
                 .addEventListener('click', function() {
-                    video.pause();
-                    locVid.pause();
+                    me.pauseActiveVideo();
                 });
 
             document.getElementById('location-button')
                 .addEventListener('click', function() {
-                    video.pause();
+                    travelVid.pause();
 
-                    locVid.play();
+                    me.state.video = 'videoLocation';
+                    me.playActiveVideo();
                 });
         });
     }
