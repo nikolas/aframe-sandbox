@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <style type="text/css">
+        .vid-menu {
+            position: absolute;
+            left: 16px;
+            bottom: 16px;
+        }
+        </style>
+
+        <script src="https://aframe.io/releases/1.2.0/aframe.js"></script>
+        <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+
+        <script>
+        AFRAME.registerComponent('menu', {
+            init: function() {
+            }
+        });
+
+        AFRAME.registerComponent('hotspot1', {
+            init: function() {
+                console.log('hi!');
+                this.el.addEventListener('click', function() {
+                    console.log('click!');
+
+                });
+            }
+        });
+
+        AFRAME.registerComponent('travelVideo', {
+            init: function() {
+                console.log('travelVid init!');
+
+                this.el.addEventListener('click', function() {
+                    console.log('travelVideo click!');
+                    // 1. play new video
+
+                    // 2. show hotspot
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+            const vrButton = document.querySelector('.a-enter-vr');
+            console.log('vrButton', vrButton);
+            if (vrButton) {
+                vrButton.remove();
+            }
+
+            const video = document.getElementById('videoTravel');
+            video.play();
+
+            document.getElementById('play-button')
+                    .addEventListener('click', function() {
+                        video.play();
+                    });
+
+            document.getElementById('pause-button')
+                    .addEventListener('click', function() {
+                        video.pause();
+                    });
+        });
+        </script>
+    </head>
+    <body>
+        <a-scene cursor="rayOrigin: mouse" raycaster="objects: .collidable" device-orientation-permission-ui="enabled: false">
+            <a-assets>
+
+                <video id="videoTravel" preload="auto"
+                       src="../assets/360proto-Travel1.mp4"
+                       travelVideo
+                       width="160" height="90" autoplay loop="false"
+                       crossOrigin="anonymous"></video>
+
+                <video id="videoLocation" preload="auto"
+                       src="../assets/360proto-Loca1.mp4"
+                       width="160" height="90" autoplay loop="true"
+                       crossOrigin="anonymous"></video>
+            </a-assets>
+
+            <a-videosphere id="demo-video-container" src="#videoTravel"></a-videosphere>
+
+            <!--<a-sky src="assets/puydesancy.jpg" rotation="0 -130 0"></a-sky>-->
+
+            <!--<a-text font="kelsonsans" value="Puy de Sancy, France" width="6" position="-2.5 0.25 -1.5"
+                 rotation="0 15 0"></a-text>-->
+
+            <a-box class="collidable hidden"
+                   position="-4 0.5 0"
+                   rotation="0 0 0"
+                   visible="false"
+                   color="#4CC3D9"
+                   hotspot1
+                   event-set__enter="_event: mouseenter; color: #8FF7FF"
+                   event-set__leave="_event: mouseleave; color: #4CC3D9">
+                <a-text id="boxText" value="This is a box" align="center" color="#FFF" visible="false" position="0 -0.55 0.55"
+                         geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+            </a-box>
+
+            <a-camera wasd-controls-enabled="false">
+                <a-entity material="shader: flat; src: #videoTravel"
+                          geometry="primitive: plane; width: 160; height: 90;"
+                          position="0 60 -250"
+                          rotation="0 35 0"
+                          play-on-click
+                          visible="false">
+                </a-entity>
+                <a-cursor></a-cursor>
+            </a-camera>
+
+            <!--<a-box color="tomato" depth="2" height="4" width="0.5"></a-box>
+
+            <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+            <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>-->
+            <!--<a-plane menu position="0 0 -4" rotation="-90 0 0" width="10" height="4" color="#7BC8A4"></a-plane>-->
+
+            <!--<a-octahedron color="#FF926B" radius="5"></a-octahedron>-->
+
+            <!--<a-sky color="#ECECEC"></a-sky>-->
+
+            <!--<a-entity camera="active: true" look-controls wasd-controls
+                      position="0 1.6 0" data-aframe-default-camera></a-entity>
+            <a-entity camera look-controls wasd-controls="acceleration:100" position="0 1.6 0"></a-entity>-->
+
+        </a-scene>
+        <div class="vid-menu">
+            <button class="btn" id="play-button" name="play">Play</button>
+            <button class="btn" id="pause-button" name="pause">Pause</button>
+        </div>
+    </body>
+</html>
