@@ -3,19 +3,47 @@ class App {
         this.state = {
             video: 'videoTravel'
         };
+
+        this.videoSelectors = [
+            'videoTravel',
+            'videoLoc'
+        ];
     }
 
-    playActiveVideo() {
-        const video = document.getElementById(this.state.video);
+    hideInactiveVideos() {
+        const me = this;
+        this.videoSelectors.forEach(function(s) {
+            if (s !== me.state.video) {
+                pauseVideo(s);
+                hideVideo(s);
+            }
+        });
+    }
+
+    playVideo(selector) {
+        const video = document.getElementById(selector);
+        const vidSphere = document.getElementById(selector + '-sphere');
+
         if (video) {
             video.play();
         }
+
+        if (vidSphere) {
+            vidSphere.setAttribute('visible', true);
+        }
     }
 
-    pauseActiveVideo() {
-        const video = document.getElementById(this.state.video);
+    pauseVideo(selector) {
+        const video = document.getElementById(selector);
+
         if (video) {
             video.pause();
+        }
+    }
+
+    hideVideo(selector) {
+        const vidSphere = document.getElementById(selector + '-sphere');            if (vidSphere) {
+            vidSphere.setAttribute('visible', false);
         }
     }
 
@@ -63,13 +91,12 @@ class App {
 
             document.getElementById('play-button')
                 .addEventListener('click', function() {
-                    me.state.video = 'videoTravel';
-                    me.playActiveVideo();
+                    me.playVideo(me.state.video);
                 });
 
             document.getElementById('pause-button')
                 .addEventListener('click', function() {
-                    me.pauseActiveVideo();
+                    me.pauseVideo(me.state.video);
                 });
 
             document.getElementById('location-button')
@@ -77,7 +104,7 @@ class App {
                     travelVid.pause();
 
                     me.state.video = 'videoLocation';
-                    me.playActiveVideo();
+                    me.playVideo(me.state.video);
                 });
         });
     }

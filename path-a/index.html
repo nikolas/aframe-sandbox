@@ -16,7 +16,10 @@
         <script src="./main.js"></script>
     </head>
     <body>
-        <a-scene cursor="rayOrigin: mouse" raycaster="objects: .collidable" device-orientation-permission-ui="enabled: false">
+        <a-scene
+            cursor="rayOrigin: mouse"
+            raycaster="objects: .collidable"
+            device-orientation-permission-ui="enabled: false">
             <a-assets>
 
                 <video id="videoTravel" preload="auto"
@@ -31,7 +34,13 @@
                        crossOrigin="anonymous"></video>
             </a-assets>
 
-            <a-videosphere id="demo-video-container" src="#videoTravel"></a-videosphere>
+            <a-videosphere
+                id="videoTravel-sphere"
+                src="#videoTravel"></a-videosphere>
+
+            <a-videosphere
+                id="videoLocation-sphere"
+                visible="false" src="#videoLocation"></a-videosphere>
 
             <!--<a-sky src="assets/puydesancy.jpg" rotation="0 -130 0"></a-sky>-->
 
