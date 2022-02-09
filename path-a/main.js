@@ -1,3 +1,41 @@
+AFRAME.registerSystem('video', {
+    schema: {
+        activeVideo: {type: 'string', default: 'videoTravel'}
+    },
+    init: function() {
+    }
+});
+
+AFRAME.registerComponent('video', {
+    schema: {
+        src: {type: 'string', default: ''}
+    },
+    init: function() {
+        if (this.system.data.activeVideo === this.data.src) {
+            this.el.object3D.visible = true;
+        } else {
+            this.el.object3D.visible = false;
+        }
+    }
+});
+
+AFRAME.registerComponent('hotspot1', {
+    init: function() {
+        this.el.addEventListener('click', function() {
+            console.log('click!');
+        });
+    }
+});
+
+AFRAME.registerComponent('play-button', {
+    init: function() {
+        console.log('play button component');
+        this.el.addEventListener('click', function() {
+            console.log('click!');
+        });
+    }
+});
+
 class App {
     constructor() {
         this.state = {
@@ -29,7 +67,7 @@ class App {
         }
 
         if (vidSphere) {
-            vidSphere.setAttribute('visible', true);
+            vidSphere.object3D.visible = true;
         }
     }
 
@@ -43,40 +81,12 @@ class App {
 
     hideVideo(selector) {
         const vidSphere = document.getElementById(selector + '-sphere');            if (vidSphere) {
-            vidSphere.setAttribute('visible', false);
+            vidSphere.object3D.visible = false;
         }
     }
 
     init() {
         const me = this;
-
-        AFRAME.registerComponent('menu', {
-            init: function() {
-            }
-        });
-
-        AFRAME.registerComponent('hotspot1', {
-            init: function() {
-                console.log('hi!');
-                this.el.addEventListener('click', function() {
-                    console.log('click!');
-
-                });
-            }
-        });
-
-        AFRAME.registerComponent('travelVideo', {
-            init: function() {
-                console.log('travelVid init!');
-
-                this.el.addEventListener('click', function() {
-                    console.log('travelVideo click!');
-                    // 1. play new video
-
-                    // 2. show hotspot
-                });
-            }
-        });
 
         document.addEventListener('DOMContentLoaded', function(event) {
             const vrButton = document.querySelector('.a-enter-vr');
@@ -87,7 +97,6 @@ class App {
 
             const travelVid = document.getElementById('videoTravel');
             const locVid = document.getElementById('videoLocation');
-            //video.play();
 
             document.getElementById('play-button')
                 .addEventListener('click', function() {
