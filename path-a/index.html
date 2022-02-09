@@ -72,14 +72,12 @@
             <!-- end intro -->
 
             <a-videosphere
-                video="src: videoTravel"
-                visible="false"
+                video="src: videoTravel; active: true"
                 id="videoTravel-sphere"
                 src="#videoTravel"></a-videosphere>
 
             <a-videosphere
-                video="src: videoLocation"
-                visible="false"
+                video="src: videoLocation; active: false"
                 id="videoLocation-sphere"
                 src="#videoLocation"></a-videosphere>
 
@@ -124,8 +122,8 @@
             <!--<a-entity camera="active: true" look-controls wasd-controls
                       position="0 1.6 0" data-aframe-default-camera></a-entity>
             <a-entity camera look-controls wasd-controls="acceleration:100" position="0 1.6 0"></a-entity>-->
-
         </a-scene>
+
         <div class="vid-menu">
             <button class="btn btn-success" id="play-button" name="play">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
@@ -147,5 +145,6 @@
                 Go to Location
             </button>
         </div>
+
     </body>
 </html>
