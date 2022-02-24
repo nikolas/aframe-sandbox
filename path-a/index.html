@@ -12,67 +12,133 @@
 
         <script src="https://aframe.io/releases/1.3.0/aframe.js"></script>
         <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
+        <script src="./info-message.js"></script>
+        <script src="./highlight.js"></script>
+        <script src="./info-panel.js"></script>
 
         <script src="./main.js"></script>
     </head>
     <body>
         <a-scene
-            video="activeVideo: videoTravel"
-            cursor="rayOrigin: mouse"
-            raycaster="objects: .collidable"
-            device-orientation-permission-ui="enabled: false">
+            background="color: #212"
+            video="activeVideo: null"
+            cursor="rayOrigin: mouse" raycaster="objects: .raycastable"
+            device-orientation-permission-ui="enabled: false"
+            info-message="htmlSrc: #messageText">
             <a-assets>
+                <a-asset-item id="messageText" src="message.html"></a-asset-item>
+                <!--
+                     Image source: http://www.ghibli.jp/works/kazetachinu/#frame&gid=1&pid=1
+                     Image author: Studio Ghibli
+                -->
+                <img id="kazetachinu" src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg" crossorigin="anonymous"/>
+                <img id="loca1Poster" src="../assets/loca1.jpg" crossorigin="anonymous"/>
+                <!--
+                     Image source: http://www.ghibli.jp/works/ponyo/#frame&gid=1&pid=36
+                     Image author: Studio Ghibli
+                -->
+                <img id="ponyo" src="https://cdn.aframe.io/examples/ui/ponyo.jpg" crossorigin="anonymous"/>
+                <img id="ponyoPoster" src="https://cdn.aframe.io/examples/ui/ponyoPoster.jpg" crossorigin="anonymous"/>
+                <!--
+                     Image source: http://www.ghibli.jp/works/karigurashi/#frame&gid=1&pid=32
+                     Image author: Studio Ghibli
+                -->
+                <img id="karigurashi" src="https://cdn.aframe.io/examples/ui/karigurashi.jpg" crossorigin="anonymous"/>
+                <img id="karigurashiPoster" src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg" crossorigin="anonymous"/>
+                <a-mixin
+                    id="frame"
+                    geometry="primitive: plane; width: 0.5783552; height: 0.8192"
+                    material="color: white; shader: flat"
+                    animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
+                    animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
+                ></a-mixin>
+                <a-mixin
+                    id="poster"
+                    geometry="primitive: plane; width: 0.544768; height: 0.786432"
+                    material="color: white; shader: flat"
+                    material="shader: flat"
+                    position="0 0 0.005"
+                ></a-mixin>
+                <a-mixin
+                    id="movieImage"
+                    geometry="primitive: plane; width: 1.5; height: 0.81"
+                    material="src: #ponyo; shader: flat; transparent: true"
+                    position="0 0.495 0.002"
+                ></a-mixin>
 
                 <video id="videoTravel" preload="auto"
                        src="../assets/360proto-Travel1.mp4"
-                       width="160" height="90" autoplay loop="false"
+                       width="160" height="90" loop="false"
                        crossOrigin="anonymous"></video>
 
                 <video id="videoLocation" preload="auto"
                        src="../assets/360proto-Loca1.mp4"
-                       width="160" height="90" autoplay loop="true"
+                       width="160" height="90" loop="true"
                        crossOrigin="anonymous"></video>
             </a-assets>
 
-            <!-- start intro -->
-            <!--
             <a-entity
-                id="mainLogo"
-                geometry="primitive: plane; width: 9; height: 1.125"
-                material="shader: flat; src: #logoImg; transparent: true; depthTest: false; blending: additive; opacity: 0"
-                position="0 3.3 -2.5"
-                rotation="0 0 0"
-                scale="0.8 0.8 0.8"
-                bind__visible="introActive || menuActive"
-                animation__opacity="property: components.material.material.opacity; from: 0; to: 1; dur: 2000; delay: 1000"
-                animation__position="property: object3D.position.y; to: 3.4; dur: 2000; easing: easeInOutQuad; startEvents: startgame"></a-entity>
+                id="background"
+                position="0 0 0"
+                geometry="primitive: sphere; radius: 2.0"
+                material="color: red; side: back; shader: flat"
+                scale="0.001 0.001 0.001"
+                visible="false" class="raycastable">
+            </a-entity>
 
             <a-entity
-                id="startButton"
-                bind__visible-raycastable="introActive"
-                geometry="primitive: plane; width: 1; height: 0.35"
-                position="0 1.6 -2.2"
-                render-order="menu"
-                proxy-event="event: click; to: a-scene, #menu, #mainlogo, #menuTopButtons, #menuBackground; as: startgame"
-                delayed-proxy-event="event: click; to: a-scene; as: menuopeningend; delay: 1800"
-                mixin="bigMenuButton"
-                play-sound__hover="event: mouseenter; sound: #hoverSound; volume: 0.1"
-                play-sound__click="event: click; sound: #confirmSound;  volume: 0.25"
-                material="ratio: 3; opacity: 0"
-                animation="property: components.material.material.uniforms.opacity.value; from: 0; to: 1; dur: 500; delay: 3000">
+                position="0 1.6 0"
+                camera look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false">
                 <a-entity
-                    id="startButtonLabel"
-                    mixin="font"
-                    text="value: BEGIN; color: {{ COLORS.WHITE }}; align: center; width: 1; wrapCount: 12; opacity: 0"
-                    position="0 -0.1 0.01"
-                    animation="property: components.text.material.uniforms.opacity.value; from: 0; to: 1; dur: 500; delay: 3500"
-                ></a-entity>
+                    id="fadeBackground"
+                    geometry="primitive: sphere; radius: 2.5"
+                    material="color: black; side: back; shader: flat; transparent: true; opacity: 0.6" visible="false">
+                </a-entity>
             </a-entity>
-            -->
-            <!-- end intro -->
+
+            <!-- Hand controls -->
+            <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .raycastable" line="color: #118A7E"></a-entity>
+
+            <a-entity id="ui" position="0 1.6 -2.5">
+                <!-- Poster menu -->
+                <a-entity id="menu" highlight>
+                    <a-entity id="karigurashiButton" position="-0.8 0 0" mixin="frame" class="raycastable menu-button">
+                        <a-entity material="src: #karigurashiPoster;" mixin="poster"></a-entity>
+                    </a-entity>
+
+                    <a-entity id="kazetachinuButton" position="0 0 0" mixin="frame" class="raycastable menu-button">
+                        <a-entity material="src: #loca1Poster" mixin="poster"></a-entity>
+                    </a-entity>
+
+                    <a-entity id="ponyoButton" position="0.8 0 0" mixin="frame" class="raycastable menu-button">
+                        <a-entity material="src: #ponyoPoster" mixin="poster"></a-entity>
+                    </a-entity>
+                </a-entity>
+
+                <!-- Info panel of the selected movie. -->
+                <a-entity
+                    id="infoPanel"
+                    position="0 0 0.5"
+                    info-panel
+                    visible="false"
+                    scale="0.001 0.001 0.001"
+                    geometry="primitive: plane; width: 1.5; height: 1.8"
+                    material="color: #333333; shader: flat; transparent: false" class="raycastable">
+                    <a-entity id="ponyoMovieImage" mixin="movieImage" material="src: #ponyo" visible="false"></a-entity>
+                    <a-entity id="kazetachinuMovieImage" mixin="movieImage" material="src: #kazetachinu" visible="false"></a-entity>
+                    <a-entity id="karigurashiMovieImage" mixin="movieImage" material="src: #karigurashi" visible="false"></a-entity>
+                    <a-entity id="movieTitle"
+                              position="-0.68 -0.1 0"
+                              text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"></a-entity>
+                    <a-entity id="movieDescription"
+                              position="-0.68 -0.2 0"
+                              text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></a-entity>
+                </a-entity>
+            </a-entity>
 
             <a-videosphere
-                video="src: videoTravel; active: true"
+                video="src: videoTravel; active: false"
                 id="videoTravel-sphere"
                 src="#videoTravel"></a-videosphere>
 
@@ -86,10 +152,10 @@
             <!--<a-text font="kelsonsans" value="Puy de Sancy, France" width="6" position="-2.5 0.25 -1.5"
                  rotation="0 15 0"></a-text>-->
 
-            <a-box class="collidable hidden"
+            <a-box class="raycastable hidden"
                    position="-4 0.5 0"
                    rotation="0 0 0"
-                   visible="false"
+                   visible="true"
                    color="#4CC3D9"
                    hotspot1
                    event-set__enter="_event: mouseenter; color: #8FF7FF"

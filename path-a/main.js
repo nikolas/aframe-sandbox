@@ -3,7 +3,7 @@
  */
 AFRAME.registerSystem('video', {
     schema: {
-        activeVideo: {type: 'string', default: 'videoTravel'}
+        activeVideo: {type: 'string', default: null}
     },
 
     init: function() {
